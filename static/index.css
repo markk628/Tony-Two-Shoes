@@ -1,0 +1,23 @@
+body {
+    font-family: 'Press Start 2P';font-size: 15px;
+    
+}
+
+.brand {
+    position: absolute;
+    left: 50%;
+    margin-left: -100px !important;
+    display: block;
+}
+
+.sale {
+    align-content: center;
+}
+
+.container {
+    border: 5px;
+}
+
+.footer {
+    background-color: #2196F3;
+}
