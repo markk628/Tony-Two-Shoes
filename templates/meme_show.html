@@ -2,17 +2,17 @@
 
 {% block content %}
 <head>
-        <title>{{memes.title}}</title>
+        <title>{{meme.title}}</title>
 </head>
 <div class='row'>
     <div class='col-sm-6 col-sm-offset-3'>
-        <h1>{{ memes.title }}</h1>
-        <img width="420" height="315" src="{{ memes.img }}">
+        <h1>{{ meme.title }}</h1>
+        <img width="420" height="315" src="{{ meme.img }}">
 
-        <p><a href='/memes/{{ memes._id }}/edit'>
+        <p><a href='/memes/{{ meme._id }}/edit'>
             <button type="button" class="btn btn-primary">Edit</button>
         </a></p>
-        <p><form method='POST' action='/memes/{{memes._id}}/delete'>
+        <p><form method='POST' action='/memes/{{meme._id}}/delete'>
             <input type='hidden' name='_method' value='DELETE'>
             <button class='btn btn-primary' type='submit'>Delete</button>
         </form></p>

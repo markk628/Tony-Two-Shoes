@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import os
 
-host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/contractor')
+host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/meme')
 client = MongoClient(host=f'{host}?retryWrites=false')
 db = client.get_default_database()
 memes = db.memes
@@ -32,9 +33,9 @@ def meme():
 
 @app.route('/memes/new')
 def meme_new():
-    return render_template('meme_new.html', memes={}, title='New Meme')
+    return render_template('meme_new.html', meme={}, title='New Meme')
 
-@app.route('/', methods=['POST'])
+@app.route('/memes', methods=['POST'])
 def meme_submit():
     meme = {
         'title': request.form.get('title'),
@@ -65,7 +66,7 @@ def meme_update(meme_id):
 @app.route('/memes/<meme_id>/edit')
 def playlists_edit(meme_id):
     meme = memes.find_one({'_id': ObjectId(meme_id)})
-    return render_template('meme_edit.html', meme=meme, title='Edit Socks')
+    return render_template('meme_edit.html', meme=meme, title='Edit Meme')
 
 @app.route('/memes/<meme_id>/delete', methods=['POST'])
 def playlists_delete(meme_id):
@@ -73,4 +74,4 @@ def playlists_delete(meme_id):
     return redirect(url_for('meme_index'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
