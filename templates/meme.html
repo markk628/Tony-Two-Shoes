@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <title>{{memes.title}}</title>
+    <a href='/'>
+        <button type="button" class="btn btn-primary">Back to Home</button>
+    </a>
+</head>
+<body>
+    <h1>{{memes.title}}</h1>
+    <div class="img">
+        <img src="{{memes.img}}">
+    </div>
+    <h2>{{memes.price}}</h2>
+    <div class='form-group'>
+        <button class='btn btn-primary' type='submit'>Add To Cart</button>
+    </div>
+    <div class='col-sm-6 col-sm-offset-3'>
+        <p><a href='/memes/{{ memes._id }}/edit'>
+            <button type="button" class="btn btn-primary">Edit</button>
+        </a></p>
+        <p><form method='POST' action='/memes/{{memes._id}}/delete'>
+            <input type='hidden' name='_method' value='DELETE'>
+            <button class='btn btn-primary' type='submit'>Delete</button>
+        </form></p>
+    </div>
+</body>
+
+{% endblock %}

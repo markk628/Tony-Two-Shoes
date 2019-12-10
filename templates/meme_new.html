@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <title>Create Memes</title>
+</head>
+<div class='row'>
+    <div class='col-sm-6 col-sm-offset-3'>
+        <form method='POST' action='/memes'>
+            {% include 'partials/meme_form.html' %}
+            <div class='form-group'>
+                <button class='btn btn-primary' type='submit'>Save Meme</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
