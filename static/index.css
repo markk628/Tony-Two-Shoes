@@ -21,3 +21,9 @@ body {
 .footer {
     background-color: #2196F3;
 }
+
+.img img{
+    position: relative;
+    width:  400px;
+    height: 475px;
+}

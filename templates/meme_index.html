@@ -8,15 +8,21 @@
         <div class="container mb-5 mt-5" style="background:#2196F3;">
             <div class="row">
                 <div class="col-lg-4">
-                <img src="/static/images/babyyoda.jpg" class="img-fluid rounded">
-                <h3>$1098320812</h3>
+                    <a href="/memes/5df0233e6e4505519184af20">
+                        <img src="/static/images/babyyoda.jpg" class="img-fluid rounded">
+                    </a>
+                    <h3>$1098320812</h3>
                 </div>
                 <div class="col-lg-4">
-                <img src="/static/images/confusedcat.jpg" class="img-fluid rounded">
-                <h3>$9319081213</h3>
+                    <a href="/memes/5df0233e6e4505519184af21">
+                        <img src="/static/images/confusedcat.jpg" class="img-fluid rounded">
+                    </a>
+                    <h3>$9319081213</h3>
                 </div>
                 <div class="col-lg-4">
-                <img src="/static/images/dog.jpg" class="img-fluid rounded">
+                    <a href="/memes/5df0233e6e4505519184af22">
+                        <img src="/static/images/dog.jpg" class="img-fluid rounded">
+                    </a>
                 <h3>$1239010210</h3>
                 </div>
             </div>
@@ -38,31 +44,13 @@
                 </center>
             </div>    
         </div>
-        <div class="container mb-5 mt-5">
-            <div class="row">
-                <div class="col-lg-4">
-                    <a href='/memes/{{memes._id}}'>
-                        <img src="/static/images/frog.jpg" class="img-fluid rounded">
-                    </a>
-                    <h3>$19020180400</h3>
-                </div>
-                <div class="col-lg-4">
-                <img src="/static/images/juicewrld.jpg" class="img-fluid rounded">
-                <h3>$18927019040</h3>
-                </div>
-                <div class="col-lg-4">
-                <img src="/static/images/plankton.jpg" class="img-fluid rounded">
-                <h3>$28673912730</h3>
-                </div>
-                <div class="col-lg-4">
-                    {% for meme in memes %}
-                        <div>
-                            <a href='/memes/{{meme._id}}'>
-                            <img src="{{meme.img}}">
-                        </div>  
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+        <center>
+            {% for meme in memes %}
+                <div class='img'>
+                    <a href='/memes/{{meme._id}}'>
+                    <img src="{{meme.img}}">
+                </div>  
+            {% endfor %}
+        </center>
     </body>
 {% endblock %}
