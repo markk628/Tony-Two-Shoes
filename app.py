@@ -50,7 +50,7 @@ def meme_submit():
 @app.route('/memes/<meme_id>')
 def meme_show(meme_id):
     meme = memes.find_one({'_id': ObjectId(meme_id)})
-    meme_comments = memes.find({'meme_id': ObjectId(meme_id)})
+    meme_comments = comments.find({'meme_id': ObjectId(meme_id)})
     return render_template('meme_show.html', meme=meme, comments=meme_comments)
 
 @app.route('/memes/<meme_id>', methods=['POST'])
@@ -75,8 +75,6 @@ def meme_delete(meme_id):
     memes.delete_one({'_id': ObjectId(meme_id)})
     return redirect(url_for('meme_index'))
 
-########## COMMENT ROUTES ##########
-
 @app.route('/memes/comments', methods=['POST'])
 def comments_new():
     comment = {
@@ -92,7 +90,7 @@ def comments_new():
 def comments_delete(comment_id):
     comment = comments.find_one({'_id': ObjectId(comment_id)})
     comments.delete_one({'_id': ObjectId(comment_id)})
-    return redirect(url_for('meme_show', comment_id=comment.get('meme_id')))
+    return redirect(url_for('meme_show', meme_id=comment.get('meme_id')))
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
