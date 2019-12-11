@@ -7,6 +7,7 @@ host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/meme')
 client = MongoClient(host=f'{host}?retryWrites=false')
 db = client.get_default_database()
 memes = db.memes
+comments = db.comments
 price = db.price
 memes.drop()
 memes.insert_one({'title': 'Baby Yoda', 'price': '$1098320812', 'img': '/static/images/babyyoda.jpg'})
@@ -49,7 +50,8 @@ def meme_submit():
 @app.route('/memes/<meme_id>')
 def meme_show(meme_id):
     meme = memes.find_one({'_id': ObjectId(meme_id)})
-    return render_template('meme.html', meme=meme)
+    meme_comments = memes.find({'meme_id': ObjectId(meme_id)})
+    return render_template('meme_show.html', meme=meme, comments=meme_comments)
 
 @app.route('/memes/<meme_id>', methods=['POST'])
 def meme_update(meme_id):
@@ -64,14 +66,33 @@ def meme_update(meme_id):
     return redirect(url_for('meme_show', meme_id=meme_id))
 
 @app.route('/memes/<meme_id>/edit')
-def playlists_edit(meme_id):
+def meme_edit(meme_id):
     meme = memes.find_one({'_id': ObjectId(meme_id)})
     return render_template('meme_edit.html', meme=meme, title='Edit Meme')
 
 @app.route('/memes/<meme_id>/delete', methods=['POST'])
-def playlists_delete(meme_id):
+def meme_delete(meme_id):
     memes.delete_one({'_id': ObjectId(meme_id)})
     return redirect(url_for('meme_index'))
+
+########## COMMENT ROUTES ##########
+
+@app.route('/memes/comments', methods=['POST'])
+def comments_new():
+    comment = {
+        'title': request.form.get('title'),
+        'content': request.form.get('content'),
+        'meme_id': ObjectId(request.form.get('meme_id'))
+    }
+    print(comment)
+    comment_id = comments.insert_one(comment).inserted_id
+    return redirect(url_for('meme_show', meme_id=request.form.get('meme_id')))
+
+@app.route('/memes/comments/<comment_id>', methods=['POST'])
+def comments_delete(comment_id):
+    comment = comments.find_one({'_id': ObjectId(comment_id)})
+    comments.delete_one({'_id': ObjectId(comment_id)})
+    return redirect(url_for('meme_show', comment_id=comment.get('meme_id')))
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))

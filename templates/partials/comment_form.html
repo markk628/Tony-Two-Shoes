@@ -1,4 +1,5 @@
-<form>
+<form action='/memes/comments' method='POST'>
+    <input type='hidden' value='{{ meme._id }}' name='meme_id'/>
     <fieldset>
         <legend>Add a Comment</legend>
         <!-- TITLE -->
