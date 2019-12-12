@@ -24,7 +24,17 @@ class MemesTests(TestCase):
     def test_index(self):
         result = self.client.get('/')
         self.assertEqual(result.status, '200 OK')
-        self.assertIn(b'meme', result.data)
+        self.assertIn(b'memes', result.data)
+
+    def test_about(self):
+        result = self.client.get('/about')
+        self.assertEqual(result.status, '200 OK')
+        self.assertIn(b'memes', result.data)
+
+    def test_memes(self):
+        result = self.client.get('/memes')
+        self.assertEqual(result.status, '200 OK')
+        self.assertIn(b'memes', result.data)
 
     def test_new(self):
         result = self.client.get('/memes/new')
