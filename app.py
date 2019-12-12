@@ -75,22 +75,41 @@ def meme_delete(meme_id):
     memes.delete_one({'_id': ObjectId(meme_id)})
     return redirect(url_for('meme_index'))
 
-@app.route('/memes/comments', methods=['POST'])
-def comments_new():
+@app.route('/memes/<meme_id>/comments', methods=['POST'])
+def comments_new(meme_id):
     comment = {
         'title': request.form.get('title'),
         'content': request.form.get('content'),
         'meme_id': ObjectId(request.form.get('meme_id'))
     }
     print(comment)
-    comment_id = comments.insert_one(comment).inserted_id
+    comments.insert_one(comment)
     return redirect(url_for('meme_show', meme_id=request.form.get('meme_id')))
 
-@app.route('/memes/comments/<comment_id>', methods=['POST'])
-def comments_delete(comment_id):
+@app.route('/memes/<meme_id>/comments/<comment_id>', methods=['POST'])
+def comment_update(meme_id, comment_id):
+    updated_comment = {
+        'title': request.form.get('title'),
+        'content': request.form.get('content'),
+        'meme_id': ObjectId(request.form.get('meme_id'))
+    }
+    comments.update_one(
+        {'_id': ObjectId(comment_id)},
+        {'$set': updated_comment})
+    return redirect(url_for('meme_show', comment_id=comment_id, meme_id=meme_id))
+
+@app.route('/memes/<meme_id>/comments/<comment_id>/edit')
+def comment_edit(meme_id, comment_id):
+    meme = memes.find_one({'_id': ObjectId(meme_id)})
+    comment = comments.find_one({'_id': ObjectId(comment_id)})
+    return render_template('comment_edit.html', comment=comment, meme=meme, meme_id=meme_id, title='Edit Comment')
+
+@app.route('/memes/<meme_id>/comments/<comment_id>/delete', methods=['POST'])
+def comments_delete(meme_id, comment_id):
     comment = comments.find_one({'_id': ObjectId(comment_id)})
     comments.delete_one({'_id': ObjectId(comment_id)})
     return redirect(url_for('meme_show', meme_id=comment.get('meme_id')))
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))

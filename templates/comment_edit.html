@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='card-block'>
+        <h4 class='card-title'>{{ comment.title }}</h4>
+        <p class='card-text'>{{ comment.content }}</p>
+</div>
+<div class='row'>
+    <div class='col-sm-6 col-sm-offset-3'>
+        <form method='POST' action='/memes/{{meme._id}}/comments/{{comment._id}}'>
+            <input type='hidden' name='_method' value='PUT'/>
+            <fieldset>
+                <legend>Edit a Comment</legend>
+                <!-- TITLE -->
+                <div class='form-group'>
+                    <label for='comment-title'>Title</label><br>
+                    <input class='form-control'
+                        id='comment-title'
+                        type='text'
+                        name='title'
+                        placeholder='Title'/>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class='form-group'>
+                    <label for='comment-content'>Description</label><br>
+                    <textarea class='form-control'
+                        id='comment-content'
+                        name='content'
+                        rows='10'
+                        placeholder='Your comment...'></textarea>
+                </div>
+            </fieldset>
+            <div class='form-group'>
+                <button class='btn btn-primary' type='submit'>Save comment</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
